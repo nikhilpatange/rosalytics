@@ -736,6 +736,14 @@
 }
 
 /* Parallax */
+.design-parallax {
+  position: relative;
+  overflow: hidden;
+  --hero-parallax-offset: 0px;
+  --hero-parallax-tilt: 0deg;
+  --roster-parallax-base: 0px;
+}
+
 .parallax-hero {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -747,12 +755,17 @@
   position: relative;
   border-radius: 28px;
   overflow: hidden;
+  transform-style: preserve-3d;
 }
 
 .parallax-hero__image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform: translate3d(0, var(--hero-parallax-offset), 0) scale(1.05)
+    rotateY(var(--hero-parallax-tilt));
+  transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform;
 }
 
 .parallax-overlay {
@@ -765,6 +778,9 @@
   padding: 24px;
   background: rgba(255, 255, 255, 0.02);
   border-radius: 24px;
+  transform: translate3d(0, calc(var(--hero-parallax-offset) * 0.6), 0);
+  transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform;
 }
 
 .parallax-hero__stats {
@@ -786,6 +802,24 @@
   background: rgba(255, 255, 255, 0.02);
   display: flex;
   justify-content: space-between;
+  transform: translate3d(0, var(--card-parallax-offset, 0px), 0);
+  transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.parallax-card:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .design-parallax,
+  .parallax-hero__image img,
+  .parallax-hero__content,
+  .parallax-card {
+    transition: none !important;
+    transform: none !important;
+  }
 }
 
 @media (max-width: 1024px) {
